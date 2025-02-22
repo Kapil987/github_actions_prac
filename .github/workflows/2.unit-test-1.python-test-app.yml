@@ -2,12 +2,19 @@ name: Python CI
 
 # Trigger the workflow on Events: any push to the main branch or pull request
 on:
-  push: # an event
-    branches:
-        - main
-  pull_request:
-    branches:
-        - main
+  workflow_dispatch:  # Only manual triggers either this line or below line
+
+  # Automatic trigger start
+  
+  # push: # an event
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
+
+  # Automatic trigger end
+
 jobs:
   test:
     runs-on: ubuntu-latest # containers
