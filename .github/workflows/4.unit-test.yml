@@ -27,7 +27,7 @@ jobs:
     - name: Installing dependencies
       working-directory: ./1.python-test-app
       run: |
-        python -m pip install -- upgrade pip
+        python -m pip install --upgrade pip
         pip install -r requirements.txt
     # Step 4: Run tests
     - name: Run tests
