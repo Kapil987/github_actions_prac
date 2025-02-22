@@ -59,7 +59,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./2.python-flask-app
-          file: ./Dockerfile
+          file: ./2.python-flask-app/Dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/flask-you-may-delete-app:latest
       
