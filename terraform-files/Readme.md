@@ -1,4 +1,4 @@
-## Prerequisite
+## Prerequisite for 3.tf-github-selfhost-runner
 1) s3 bucket name to be specified in provider.tf
 2) Update Github Account Token in github secrets which suitable permission to create an runner auth token
 3) Update Aws credentials in github secrets
