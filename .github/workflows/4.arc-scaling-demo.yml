@@ -1,11 +1,14 @@
 name: Test Docker on GitHub Actions
 
 on:
-  workflow_dispatch:  # Only manual triggers either this line or below line
+  pull_request:
+  push:
+    branches: 
+      - master
 
 jobs:
   push_container:
-    runs-on: gha-runner-scale-set
+    runs-on: ubuntu-latest
     services:
       docker:
         image: docker:dind
@@ -27,13 +30,12 @@ jobs:
         run: |
           docker version
           docker info
-      - name: Build Docker image with Kaniko
+      - name: Build and push Docker image with Kaniko
         uses: int128/kaniko-action@v1
         with:
-          file: ./2.python-flask-app/Dockerfile  # Path to your Dockerfile
-          context: ./2.python-flask-app          # Build context
-          tags: my-dockerhub-username/my-image-name:latest
-          # push is true by default; set to false if needed
-
-      - name: Display Image Digest (Optional)
-        run: echo "Image built successfully."
+          context: ./2.python-flask-app # Path to your app's directory (containing Dockerfile)
+          file: ./2.python-flask-app/Dockerfile # Path to your app's Dockerfile
+          tags: your-dockerhub-username/your-image-name:latest # Replace with your info
+          push: true # Only include if you want to push to a registry. Remove for local build.
+          cache: true # Optional
+          cache-repository: ghcr.io/${{ github.repository }}/cache # Optional
