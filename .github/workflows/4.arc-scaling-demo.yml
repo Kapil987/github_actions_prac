@@ -1,23 +1,39 @@
-name: Build and Push Docker Image using Kaniko
+name: Test Docker on GitHub Actions
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Only manual triggers either this line or below line
+
 jobs:
-  build:
+  push_container:
     runs-on: gha-runner-scale-set
     services:
       docker:
         image: docker:dind
         options: --privileged --shm-size=2g
-    env:
-      DOCKER_HOST: tcp://docker:2375
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock:ro
+    container:
+      image: ubuntu:latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install Docker
+        run: |
+          apt-get update
+          apt-get install -y docker.io
+
+      - name: Test Docker
+        run: |
+          docker version
+          docker info
       - name: Build Docker image with Kaniko
         uses: int128/kaniko-action@v1
         with:
           file: ./2.python-flask-app/Dockerfile  # Path to your Dockerfile
           context: ./2.python-flask-app          # Build context
           tags: my-dockerhub-username/my-image-name:latest
+          # push is true by default; set to false if needed
+
+      - name: Display Image Digest (Optional)
+        run: echo "Image built successfully."
