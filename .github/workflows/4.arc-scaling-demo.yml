@@ -9,27 +9,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Get Docker Metadata
-        id: metadata
-        uses: docker/metadata-action@v3
-        with:
-          # Replace "my-app" with your repository/image name
-          images: ${{ vars.DOCKERHUB_USERNAME }}/my-app
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          registry: docker.io
-
-      - name: Build and Push Image using Kaniko
+      - name: Build Docker image with Kaniko
         uses: int128/kaniko-action@v1
         with:
-          push: true
-          tags: ${{ steps.metadata.outputs.tags }}
-          labels: ${{ steps.metadata.outputs.labels }}
-          cache: true
-          # Optionally set a cache repository (update "my-app-cache" as needed)
-          cache-repository: ${{ vars.DOCKERHUB_USERNAME }}/my-app-cache
+          file: ./2.python-flask-app/Dockerfile  # Path to your Dockerfile
+          context: ./2.python-flask-app  # Build context (directory containing Dockerfile)
+          # No push: push: false or simply omit the push option
+          tags: my-dockerhub-username/my-image-name:latest # Replace with your Docker Hub username and image name
+          # cache: true
+          # cache-repository: ghcr.io/${{ github.repository }}/cache # Optional cache
+
+      - name: Display Image Digest (Optional)
+        run: echo "Image built successfully. Digest:"
