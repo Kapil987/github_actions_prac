@@ -2,22 +2,22 @@ name: Build and Push Docker Image using Kaniko
 
 on:
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: gha-runner-scale-set
+    services:
+      docker:
+        image: docker:dind
+        options: --privileged --shm-size=2g
+    env:
+      DOCKER_HOST: tcp://docker:2375
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
       - name: Build Docker image with Kaniko
         uses: int128/kaniko-action@v1
         with:
           file: ./2.python-flask-app/Dockerfile  # Path to your Dockerfile
-          context: ./2.python-flask-app  # Build context (directory containing Dockerfile)
-          # No push: push: false or simply omit the push option
-          tags: my-dockerhub-username/my-image-name:latest # Replace with your Docker Hub username and image name
-          # cache: true
-          # cache-repository: ghcr.io/${{ github.repository }}/cache # Optional cache
-
-      - name: Display Image Digest (Optional)
-        run: echo "Image built successfully. Digest:"
+          context: ./2.python-flask-app          # Build context
+          tags: my-dockerhub-username/my-image-name:latest
