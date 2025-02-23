@@ -1,11 +1,8 @@
 name: Test Docker on GitHub Actions
 
 on:
-  pull_request:
-  push:
-    branches: 
-      - master
-
+  workflow_dispatch: 
+    
 jobs:
   push_container:
     runs-on: ubuntu-latest
