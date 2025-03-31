@@ -1,0 +1,26 @@
+name: start demo workflow
+
+on: # Automatic trigger start
+  push: # an event
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:  # Manual triggers
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest # image to run on
+    steps:
+      - uses: actions/checkout@v4
+      - name: hello from actions step
+        run: echo "Hello world from github"
+        shell: bash
+
+  Goodafternoon:
+    runs-on: ubuntu-latest
+    steps :
+      - name: Good Afternoon Step
+        run: echo "Good Afternoon Learners"
+        shell: bash
