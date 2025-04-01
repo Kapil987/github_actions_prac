@@ -10,6 +10,7 @@ minRunners: 1
 ## Template for each runner Pod using hostPath volume for workspace
 template:
   spec:
+    serviceAccountName: arc-runner-serviceaccount
     volumes:
       - name: work
         hostPath:
