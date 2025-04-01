@@ -5,10 +5,10 @@ on:
 jobs:
   build:
     # This job will now run on your ARC runner scale set
+    # runs-on: [arc-runner-set]
     runs-on: [arc-runner-set]
-    # runs-on: []
     container:
-      image: kapil0123/my-dind-with-git
+      image: gcr.io/kaniko-project/executor:debug
     permissions:
       contents: read     # Needed for checkout
       packages: write    # Needed if you push to a registry
