@@ -1,0 +1,13 @@
+name: 🧪 Test building with Kaniko
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: [arc-kaniko-set] # our new runner set
+    container:
+      image: gcr.io/kaniko-project/executor:debug # the kaniko image
+    permissions:
+      contents: read # read the repository
+      packages: write # push to GHCR, omit if not pushing to GitHub's container registry

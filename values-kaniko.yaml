@@ -1,0 +1,40 @@
+## GitHub Configurations for ARC Runner Set
+githubConfigUrl: "https://github.com/Kapil987/github_actions_prac"
+githubConfigSecret: "github-token-secret"
+## maxRunners is the max number of runners the auto scaling runner set will scale up to.
+maxRunners: 5
+
+## minRunners is the min number of runners the auto scaling runner set will scale down to.
+minRunners: 1
+
+## Template for each runner Pod using hostPath volume for workspace
+template:
+  spec:
+    volumes:
+      - name: work
+        hostPath:
+          path: /tmp/runner-work
+          type: DirectoryOrCreate
+    initContainers:
+      - name: kube-init
+        image: ghcr.io/actions/actions-runner:latest
+        command: ["sudo", "chown", "-R", "runner:runner", "/home/runner/_work"]
+        volumeMounts:
+          - name: work
+            mountPath: /home/runner/_work
+    containers:
+      - name: runner
+        image: ghcr.io/actions/actions-runner:latest
+        command: ["/home/runner/run.sh"]
+        env:
+          - name: ACTIONS_RUNNER_CONTAINER_HOOKS
+            value: /home/runner/k8s/index.js
+          - name: ACTIONS_RUNNER_POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER
+            value: "false"  # allow non-container steps
+        volumeMounts:
+          - name: work
+            mountPath: /home/runner/_work
