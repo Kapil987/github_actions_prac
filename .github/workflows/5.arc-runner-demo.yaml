@@ -16,7 +16,12 @@ jobs:
     - name: Install Kaniko
       run: |
         # Option 1: Download a pre-built binary (might require adjustments for permissions)
-        wget https://github.com/GoogleContainerTools/kaniko/releases/download/v1.19.0/kaniko-v1.19.0-linux-amd64.tar.gz
+        # If wget is available, you can use it:
+        # wget https://github.com/GoogleContainerTools/kaniko/releases/download/v1.19.0/kaniko-v1.19.0-linux-amd64.tar.gz
+
+        # Alternative using curl (more likely to be available):
+        curl -LO https://github.com/GoogleContainerTools/kaniko/releases/download/v1.19.0/kaniko-v1.19.0-linux-amd64.tar.gz
+
         tar -zxvf kaniko-v1.19.0-linux-amd64.tar.gz
         sudo mv kaniko /usr/local/bin/
         chmod +x /usr/local/bin/kaniko
