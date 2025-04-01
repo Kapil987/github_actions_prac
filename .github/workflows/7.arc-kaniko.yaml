@@ -1,5 +1,4 @@
-name: 🧪 Test building with Kaniko
-
+name: Test building with Kaniko
 on:
   workflow_dispatch:
 
