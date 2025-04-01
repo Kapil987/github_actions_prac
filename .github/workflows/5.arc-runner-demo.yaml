@@ -26,9 +26,6 @@ jobs:
         # Alternative using curl (more likely to be available):
         curl -LO "${KANIKO_URL}"
 
-        # Verify the file type (for debugging)
-        file "${KANIKO_FILENAME}"
-
         # Attempt to extract the archive
         tar -zxvf "${KANIKO_FILENAME}"
 
