@@ -1,12 +1,13 @@
-name: Test building with Kaniko
+name: Test Kaniko Version
+
 on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: [arc-kaniko-set] # our new runner set
+  check-kaniko-version:
+    runs-on: [arc-kaniko-set] # Your ARC runner set
     container:
-      image: gcr.io/kaniko-project/executor:debug # the kaniko image
-    permissions:
-      contents: read # read the repository
-      packages: write # push to GHCR, omit if not pushing to GitHub's container registry
+      image: gcr.io/kaniko-project/executor:debug # Or any kaniko image
+    steps:
+      - name: Check Kaniko Version
+        run: /kaniko/executor --version
