@@ -10,8 +10,17 @@ jobs:
     - name: Display Initial Message
       run: echo "🎉 This job uses runner scale set runners!"
 
-    - name: Check Docker Version
+    # - name: Check Docker Version
       # run: docker --version # Add this step to run the command
-      run: docker run --rm gcr.io/kaniko-project/executor:v1.23.2 # Add this step to run the command
+      # run: docker build # Add this step to run the command
+    
+    - name: Build and push
+      id: build-and-publish
+      uses: docker/build-push-action@v6
+      with:
+        context: ./2.python-flask-app
+        file: ./2.python-flask-app/Dockerfile
+        push: true
+        # tags: ${{ vars.DOCKERHUB_USERNAME }}/flask-you-may-delete-app:latest
 
   
