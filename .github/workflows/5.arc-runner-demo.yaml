@@ -11,37 +11,7 @@ jobs:
       run: echo "🎉 This job uses runner scale set runners!"
 
     - name: Check Docker Version
-      run: docker --version # Add this step to run the command
+      # run: docker --version # Add this step to run the command
+      run: docker run --rm gcr.io/kaniko-project/executor:v1.23.2 # Add this step to run the command
 
-    - name: Install Kaniko
-      run: |
-        KANIKO_VERSION="v1.19.0"
-        KANIKO_FILENAME="kaniko-${KANIKO_VERSION}-linux-amd64.tar.gz"
-        KANIKO_URL="https://github.com/GoogleContainerTools/kaniko/releases/download/${KANIKO_VERSION}/${KANIKO_FILENAME}"
-
-        # Option 1: Download a pre-built binary (might require adjustments for permissions)
-        # If wget is available, you can use it:
-        # wget "${KANIKO_URL}"
-
-        # Alternative using curl (more likely to be available):
-        curl -LO "${KANIKO_URL}"
-
-        # Attempt to extract the archive
-        tar -zxvf "${KANIKO_FILENAME}"
-
-        # Move and make executable
-        sudo mv kaniko /usr/local/bin/
-        chmod +x /usr/local/bin/kaniko
-
-        # Option 2: Use a Docker image (requires Docker to be available)
-        # This option doesn't strictly install Kaniko on the host, but allows you to run its commands.
-        # If you need the 'kaniko' command directly, Option 1 is more suitable.
-        echo "Kaniko will be used via its Docker image in the next step."
-
-    - name: Check Kaniko Version
-      run: |
-        # Option 1: If you installed the binary
-        kaniko --version
-
-        # Option 2: If you are using the Docker image
-        docker run --rm gcr.io/kaniko-project/executor --version
+  
