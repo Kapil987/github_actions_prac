@@ -12,3 +12,24 @@ jobs:
 
     - name: Check Docker Version
       run: docker --version # Add this step to run the command
+
+    - name: Install Kaniko
+      run: |
+        # Option 1: Download a pre-built binary (might require adjustments for permissions)
+        wget https://github.com/GoogleContainerTools/kaniko/releases/download/v1.19.0/kaniko-v1.19.0-linux-amd64.tar.gz
+        tar -zxvf kaniko-v1.19.0-linux-amd64.tar.gz
+        sudo mv kaniko /usr/local/bin/
+        chmod +x /usr/local/bin/kaniko
+
+        # Option 2: Use a Docker image (requires Docker to be available)
+        # This option doesn't strictly install Kaniko on the host, but allows you to run its commands.
+        # If you need the 'kaniko' command directly, Option 1 is more suitable.
+        echo "Kaniko will be used via its Docker image in the next step."
+
+    - name: Check Kaniko Version
+      run: |
+        # Option 1: If you installed the binary
+        kaniko --version
+
+        # Option 2: If you are using the Docker image
+        docker run --rm gcr.io/kaniko-project/executor --version
